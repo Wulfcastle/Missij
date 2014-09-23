@@ -7,10 +7,13 @@
     <string name="title_section3">Section 3</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_login">Login</string>
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
     <string name="btnLogin_text">Login</string>
     <string name="sign_up_text">Don\'t Have An Account? Sign Up!</string>
+    <string name="title_activity_sign_up">Sign Up</string>
+    <string name="btnSignUp_text">Sign Up</string>
+    <string name="email_hint">email@example.com</string>
 
 </resources>

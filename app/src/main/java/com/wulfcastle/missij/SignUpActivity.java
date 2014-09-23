@@ -1,41 +1,24 @@
 package com.wulfcastle.missij;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 
-public class LoginActivity extends Activity {
-
-    protected TextView mSignUp;
+public class SignUpActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        mSignUp = (TextView) findViewById(R.id.txtSignUp);
-        mSignUp.setOnClickListener(new View.OnClickListener() { // Change to SignUpActivity on click of sign up text
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
-
+        setContentView(R.layout.activity_sign_up);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.login, menu);
+        getMenuInflater().inflate(R.menu.sign_up, menu);
         return true;
     }
 
@@ -50,6 +33,4 @@ public class LoginActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }
