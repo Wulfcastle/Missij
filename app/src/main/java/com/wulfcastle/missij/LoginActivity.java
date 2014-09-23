@@ -18,8 +18,8 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mSignUp = (TextView) findViewById(R.id.txtSignUp);
-        mSignUp.setOnClickListener(new View.OnClickListener() { // Change to SignUpActivity on click of sign up text
+        mSignUp = (TextView) findViewById(R.id.txtSignUp); // Change to SignUpActivity on click of sign up text
+        mSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
