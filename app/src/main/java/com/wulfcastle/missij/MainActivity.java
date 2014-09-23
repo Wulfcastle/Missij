@@ -41,6 +41,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         setContentView(R.layout.activity_main);
 
         Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Setting LoginActivity (Login Screen) as new task
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clearing old task (Inbox), so that it can't be gone back into
         startActivity(intent);
 
         // Set up the action bar.
