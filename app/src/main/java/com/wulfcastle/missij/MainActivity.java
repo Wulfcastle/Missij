@@ -10,16 +10,14 @@ import android.app.FragmentTransaction;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 
-public class MyActivity extends Activity implements ActionBar.TabListener {
+public class MainActivity extends Activity implements ActionBar.TabListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -39,7 +37,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my);
+        setContentView(R.layout.activity_main);
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -80,7 +78,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.my, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -177,7 +175,7 @@ public class MyActivity extends Activity implements ActionBar.TabListener {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_my, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
         }
     }
