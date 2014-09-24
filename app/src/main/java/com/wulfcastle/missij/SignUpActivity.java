@@ -45,7 +45,10 @@ public class SignUpActivity extends Activity {
                 email = email.trim();
 
                 if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
-                   alert(String.valueOf(R.string.sign_up_error_message)).show();
+
+                   alert(getString(R.string.sign_up_error_message)).show();
+
+
                 } else {
 
                     //Creating new user using Parse.com backend
