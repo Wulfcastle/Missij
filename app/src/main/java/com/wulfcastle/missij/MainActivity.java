@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,24 +19,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.parse.ParseAnalytics;
+import com.parse.ParseUser;
 
 
 public class MainActivity extends Activity implements ActionBar.TabListener {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v13.app.FragmentStatePagerAdapter}.
-     */
-    SectionsPagerAdapter mSectionsPagerAdapter;
 
-    /**
+    SectionsPagerAdapter mSectionsPagerAdapter;
+    /*
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+
+    public static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +39,19 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         setContentView(R.layout.activity_main);
         ParseAnalytics.trackAppOpened(getIntent());
 
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+
+            Log.i(TAG, currentUser.getUsername());
+
+        } else {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Setting LoginActivity (Login Screen) as new task
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clearing old task (Inbox), so that it can't be gone back into
+            startActivity(intent);
+        }
 
 
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Setting LoginActivity (Login Screen) as new task
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clearing old task (Inbox), so that it can't be gone back into
-        startActivity(intent);
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();

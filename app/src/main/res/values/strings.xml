@@ -17,4 +17,6 @@
     <string name="email_hint">email@example.com</string>
     <string name="sign_up_error_message">Please re-check your details. One of your fields are empty</string>
     <string name="sign_up_error_titles">Error</string>
+    <string name="login_error_message">Please re-check your details. One of your fields are empty</string>
+    <string name="login_error_titles">Error</string>
 </resources>
