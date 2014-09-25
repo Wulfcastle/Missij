@@ -1,10 +1,11 @@
 package com.wulfcastle.missij;
 
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+
 import android.content.Context;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.Locale;
 
@@ -21,11 +22,23 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         mContext = context;
     }
 
+
+
     @Override
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return MainActivity.PlaceholderFragment.newInstance(position + 1);
+
+        switch (position) { // Switching between Inbox & Friends
+
+            case 0:
+
+                    return new InboxFragment(); // Creating new Object from InboxFragment.java
+            case 1:
+                    return new FriendsFragment(); // Creating new Object from FriendsFragment.java
+
+        }
+        return null;
     }
 
     @Override
