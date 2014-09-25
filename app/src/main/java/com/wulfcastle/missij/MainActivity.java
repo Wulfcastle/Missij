@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
@@ -36,7 +37,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
         ParseAnalytics.trackAppOpened(getIntent());
 
         ParseUser currentUser = ParseUser.getCurrentUser();

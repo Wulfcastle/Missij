@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_login);
 
         mUsername = (EditText) findViewById(R.id.usernameField);
@@ -50,8 +52,13 @@ public class LoginActivity extends Activity {
 
                     // Login
 
+                    setProgressBarIndeterminateVisibility(true); // Showing Progress Bar
+
                     ParseUser.logInInBackground(username, password, new LogInCallback() {
                         public void done(ParseUser user, ParseException e) {
+
+                            setProgressBarIndeterminateVisibility(false); // Closing Progress Bar
+
                             if (e == null) { // You could also use ---> if (user != null)
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class); // Switch to User's Inbox
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Creating new task for Inbox (MainActivity)
