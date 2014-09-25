@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -25,6 +26,7 @@ public class SignUpActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_sign_up);
 
         mUsername = (EditText) findViewById(R.id.txtUsername);
@@ -52,6 +54,7 @@ public class SignUpActivity extends Activity {
                 } else {
 
                     //Creating new user using Parse.com backend
+                    setProgressBarIndeterminateVisibility(true); // Showing Progress Bar
 
                     ParseUser newUser = new ParseUser();
                     newUser.setUsername(username);
@@ -59,22 +62,21 @@ public class SignUpActivity extends Activity {
                     newUser.setEmail(email);
 
                     newUser.signUpInBackground(new SignUpCallback() {
+
                         @Override
                         public void done(ParseException e) {
-                            if (e == null ) {
+                            setProgressBarIndeterminateVisibility(false); // Close Progress Bar
 
+                            if (e == null ) {
                                 // Then we know that the sign-up process was a success
                                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class); // Taking user to the inbox --->
                                 // SignUpActivity.this is the context, where the app is currently at and MainActiviy.class is where the app needs to go
-
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Creating new task for Inbox (MainActivity)
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clearing Sign Up page (SignUpActivity)
-
                                 startActivity(intent);
 
                             } else {
                                 alert(e.getMessage()).show();
-
                             }
                         }
                     });
