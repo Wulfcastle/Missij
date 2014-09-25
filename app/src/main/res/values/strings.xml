@@ -6,6 +6,7 @@
     <string name="title_friends">Friends</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_logout">Logout</string>
+    <string name="action_edit_friends">Edit Friends</string>
     <string name="title_activity_login">Login</string>
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
@@ -20,4 +21,7 @@
     <string name="login_error_titles">Error</string>
     <string name="empty_inbox_label">No new messages!</string>
     <string name="empty_friends_label">Add some friends!</string>
+    <string name="title_activity_edit_friends">Edit Friends</string>
+    <string name="action_settings">Settings</string>
+
 </resources>

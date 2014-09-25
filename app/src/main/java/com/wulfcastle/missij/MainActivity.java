@@ -101,12 +101,22 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId(); // Get the id of Menu Item that was clicked on
+
         if (id == R.id.action_logout) {
 
             ParseUser.logOut(); // Logout current user
             ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
             navigateToLogin();
+
+        } else if (id == R.id.action_edit_friends) {
+
+            Intent intent = new Intent(this, EditFriendsActivity.class);
+            startActivity(intent);
+
+
         }
+
+
         return super.onOptionsItemSelected(item);
     }
 
