@@ -45,10 +45,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
             Log.i(TAG, currentUser.getUsername());
 
         } else {
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Setting LoginActivity (Login Screen) as new task
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clearing old task (Inbox), so that it can't be gone back into
-            startActivity(intent);
+            navigateToLogin();
         }
 
 
@@ -101,11 +98,21 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        int id = item.getItemId(); // Get the id of Menu Item that was clicked on
+        if (id == R.id.action_logout) {
+
+            ParseUser.logOut(); // Logout current user
+            ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
+            navigateToLogin();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void navigateToLogin() {
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Creating new task for Login page (LoginActivity)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clearing Inbox (MainActivity)
+        startActivity(intent);
     }
 
     @Override
