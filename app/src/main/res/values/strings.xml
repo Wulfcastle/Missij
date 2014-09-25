@@ -3,6 +3,7 @@
 
     <string name="app_name">Missij</string>
     <string name="title_inbox">Inbox</string>
+    <string name="error_title">Whoops, we\'re sorry</string>
     <string name="title_friends">Friends</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_logout">Logout</string>
