@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -28,6 +30,9 @@ public class EditFriendsActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_edit_friends);
+
+
+        getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE); // Get's default list view associated with this activity and set's the Choice Mode for the List View allow multiple choices
     }
 
 
@@ -95,6 +100,11 @@ public class EditFriendsActivity extends ListActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+    }
 
     public AlertDialog alert(String error) {
         AlertDialog.Builder builder = new AlertDialog.Builder(EditFriendsActivity.this); // Creating Alert Dialog
