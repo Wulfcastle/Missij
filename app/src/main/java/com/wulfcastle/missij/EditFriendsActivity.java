@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
@@ -85,6 +86,8 @@ public class EditFriendsActivity extends ListActivity {
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditFriendsActivity.this, android.R.layout.simple_list_item_checked, usernames);
                     setListAdapter(adapter);
 
+                    addFriendCheckmarks();
+
                 } else {
                     Log.e(TAG, e.getMessage());
                      alert(getString(R.string.error_title)).show();
@@ -125,8 +128,51 @@ public class EditFriendsActivity extends ListActivity {
             });
         } else {
             // Remove Friend
-            
+
         }
+    }
+
+    private void addFriendCheckmarks() {
+        mFriendsRelation.getQuery().findInBackground(new FindCallback<ParseUser>() { // Get relation status from Parse.com
+            @Override
+            public void done(List<ParseUser> friends, ParseException e) {
+
+                if (e == null) {
+                    // Query succeeded ---> List of Users Returned -----> Look for a match
+                    for (int i=0; i < mUsers.size(); i++) { // mUsers is the list of all users
+                       ParseUser user = mUsers.get(i); // Looping through all users and storing current user in ParseUser variable -----> mUsers is a lift of all users in the database
+                        for (ParseUser friend : friends) { // friends is a list of all the app user's friends
+                            // For *each* ParseUser (known as friend in this loop) in List<ParseUser> (List of ParseUsers)  of  "friends" do the following :
+
+                            if (friend.getObjectId().equals(user.getObjectId())) {
+
+                            /*
+
+                             Here the the current user's Object ID (from "ParseUser user" variable above (which is acquired from mUsers, which is a list of all users)
+                             is being compared Object ID's from the list of friends (ParseUser friend is a single user from the list of all friends. The list of all friends are defined above in line 138)
+
+                             If the Object ID of the ParseUser "user" variable matches the ParseUser "friend" variable it means that the current user in the loop is a friend of the app user.
+                             Therefore we can check the, CheckMark to show that the user is a friend
+
+                             ## Take note that ParseUser "user" and ParseUser "friend" will always be at the same index (i.e. the same place in the list) as both are listed in a nested for-loop
+                                that means that we will be setting the CheckMark for the right user
+
+                             */
+
+                               getListView().setItemChecked(i, true);                                
+                               /* Setting the checkmark. "i" is being used as the int for the position
+                                (as we are still in the for loop) and the CheckMark is set to true */
+
+                            }
+                        }
+                    }
+
+                } else {
+                    Log.e(TAG, e.getMessage());
+                }
+
+            }
+        });
     }
 
     public AlertDialog alert(String error) {
