@@ -159,7 +159,7 @@ public class EditFriendsActivity extends ListActivity {
 
                              */
 
-                               getListView().setItemChecked(i, true);                                
+                               getListView().setItemChecked(i, true);
                                /* Setting the checkmark. "i" is being used as the int for the position
                                 (as we are still in the for loop) and the CheckMark is set to true */
 
