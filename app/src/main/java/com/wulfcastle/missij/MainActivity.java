@@ -35,8 +35,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        setContentView(R.layout.activity_main);
         ParseAnalytics.trackAppOpened(getIntent());
 
         ParseUser currentUser = ParseUser.getCurrentUser();
