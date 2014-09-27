@@ -40,14 +40,6 @@ public class EditFriendsActivity extends ListActivity {
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE); // Gets default list view associated with this activity and set's the Choice Mode for the List View allow multiple choices
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.edit_friends, menu);
-        return true;
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -96,40 +88,36 @@ public class EditFriendsActivity extends ListActivity {
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        mFriendsRelation.add(mUsers.get(position)); // Adding Friend by getting position of the displayed user from the ListView.
-        // #Take note that this only adds the relation locally, we also need to save the relation to the Parse.com backend
 
 
         if (getListView().isItemChecked(position)) {
-            // Add Friend
-            mCurrentUser.saveInBackground(new SaveCallback() { // Saving the relation to the Parse.com back-end
-                @Override
-                public void done(ParseException e) {
-                    if (e != null) {
-                        Log.e(TAG, e.getMessage());
-                    }
-                }
-            });
-        } else {
-            // Remove Friend
 
+            // Add Friend
+            mFriendsRelation.add(mUsers.get(position));
+
+                /* Adding Friend by getting position of the displayed user ---->
+                 Remember that we have to use mUsers (as mUsers is the whole ist of users), not mCurrentUser for this) from the ListView. */
+                // #Take note that this only adds the relation locally, we also need to save the relation to the Parse.com backend, down below.
+         } else {
+
+            // Remove Friend
+            mFriendsRelation.remove(mUsers.get(position));
         }
+
+        mCurrentUser.saveInBackground(new SaveCallback() { // Saving the relation to the Parse.com back-end
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, e.getMessage());
+                }
+            }
+        });
+
     }
 
     private void addFriendCheckmarks() {
