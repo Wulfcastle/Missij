@@ -200,6 +200,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            // add to the gallery
+            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            mediaScanIntent.setData(fileUri);
+            sendBroadcast(mediaScanIntent);
+
+        } else if (resultCode != RESULT_CANCELED) {
+            Toast.makeText(this, R.string.general_error, Toast.LENGTH_LONG).show();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
