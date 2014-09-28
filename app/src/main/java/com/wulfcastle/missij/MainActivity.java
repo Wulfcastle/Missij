@@ -10,13 +10,17 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.Toast;
 
 
 import com.parse.ParseAnalytics;
@@ -34,12 +38,28 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
+    public static final int TAKE_PHOTO_REQUEST = 0;
+    public static final int TAKE_VIDEO_REQUEST = 1;
+    public static final int CHOOSE_PHOTO_REQUEST = 2;
+    public static final int CHOOSE_VIDEO_REQUEST = 3;
+
+    public static final int MEDIA_TYPE_IMAGE = 4;
+    public static final int MEDIA_TYPE_VIDEO = 5;
+
+    private Uri fileUri;
+
     protected DialogInterface.OnClickListener mDialogListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int which) { // int "which" is the number of the String Array in the dialog which is clicked on
 
             switch(which) {
                 case 0: // Take Picture Option
+                    Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); // Opening new app to capture image
+                    fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // Create a file to save the image
+                    saveImage(takePhotoIntent);
+
+
+
                     break;
 
                 case 1: // Take Video Option
@@ -54,6 +74,40 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         }
     };
+
+    private Uri getOutputMediaFileUri(int mediaType) {
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        if (isExternalStorageAvailable() == true) {
+                    // Get the URI
+            return null;
+        } else {
+            return null;
+        }
+    }
+
+    protected void saveImage(Intent intent) {
+
+        if (fileUri == null) {
+            // Display Error
+            Toast.makeText(MainActivity.this, R.string.storage_error, Toast.LENGTH_LONG);
+        } else {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // Set the image file name
+            startActivityForResult(intent, TAKE_PHOTO_REQUEST); // startActivityForResult means that the activity should start an external app, use it ,and return a result
+        }
+
+    }
+
+    private boolean isExternalStorageAvailable() {
+        String state = Environment.getExternalStorageState();  // Tells us which state external storage is in
+
+        if (state.equals(Environment.MEDIA_MOUNTED)) {
+            return true;
+        } else {
+            return false;        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
