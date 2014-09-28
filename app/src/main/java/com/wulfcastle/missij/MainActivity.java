@@ -1,5 +1,8 @@
 package com.wulfcastle.missij;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 
@@ -57,9 +60,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); // Opening new app to capture image
                     fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // Create a file to save the image
                     saveImage(takePhotoIntent);
-
-
-
                     break;
 
                 case 1: // Take Video Option
@@ -80,15 +80,53 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         // using Environment.getExternalStorageState() before doing this.
 
         if (isExternalStorageAvailable() == true) {
-                    // Get the URI
-            return null;
+            // Get the URI
+
+            // 1. Get the External Storage Directory
+
+            String appName = MainActivity.this.getString(R.string.app_name);
+            File mediaStorageDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), appName); // Creating a sub-directory from our app name
+
+            // 2. Create our apps sub-directory if there isn't already one
+
+            if (! mediaStorageDirectory.exists()) {
+                if (! mediaStorageDirectory.mkdirs()); // Make the directory ---> mkdirs() returns a boolean value based on whether it was executed successfully or not.
+                Log.e(TAG, getString(R.string.directory_creation_error));
+                return null;
+            }
+            // 3. Create a file name
+
+
+            // 4. Create the file
+
+            File mediaFile;
+            Date now = new Date(); // Getting date and time, to create timestamp when file is saved in case the file is saved over an existing file
+            String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(now); // Formatting date into a String timestamp
+
+            String path = mediaStorageDirectory.getPath() + File.separator;
+
+            if (mediaType == MEDIA_TYPE_IMAGE) {
+                mediaFile = new File(path + "IMG_" + timestamp + ".jpg"); // Format for saving Image file
+
+            } else if (mediaType == MEDIA_TYPE_VIDEO) {
+                mediaFile = new File(path + "VID_" + timestamp + ".mp4"); // Format for saving Image file
+            } else {
+                return null;
+            }
+
+            Log.d(TAG, "File: " + Uri.fromFile(mediaFile));
+
+
+            // 5. Return the file's URI
+
+            return Uri.fromFile(mediaFile);
+
         } else {
             return null;
         }
     }
 
     protected void saveImage(Intent intent) {
-
         if (fileUri == null) {
             // Display Error
             Toast.makeText(MainActivity.this, R.string.storage_error, Toast.LENGTH_LONG);
@@ -96,7 +134,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // Set the image file name
             startActivityForResult(intent, TAKE_PHOTO_REQUEST); // startActivityForResult means that the activity should start an external app, use it ,and return a result
         }
-
     }
 
     private boolean isExternalStorageAvailable() {
