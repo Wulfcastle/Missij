@@ -6,7 +6,9 @@ import java.util.Locale;
 import android.app.ActionBar;
 
 
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -31,6 +33,27 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     ViewPager mViewPager;
 
     public static final String TAG = MainActivity.class.getSimpleName();
+
+    protected DialogInterface.OnClickListener mDialogListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int which) { // int "which" is the number of the String Array in the dialog which is clicked on
+
+            switch(which) {
+                case 0: // Take Picture Option
+                    break;
+
+                case 1: // Take Video Option
+                    break;
+
+                case 2: // Choose Picture Option
+                    break;
+
+                case 3: // Chose Video Option
+                    break;
+            }
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,25 +122,33 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId(); // Get the id of Menu Item that was clicked on
+        int itemId = item.getItemId(); // Get the id of Menu Item that was clicked on
 
-        if (id == R.id.action_logout) {
+        switch (itemId) {
 
-            ParseUser.logOut(); // Logout current user
-            ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
-            navigateToLogin();
+            case R.id.action_logout:
 
-        } else if (id == R.id.action_edit_friends) {
+                ParseUser.logOut(); // Logout current user
+                ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
+                navigateToLogin();
 
-            Intent intent = new Intent(this, EditFriendsActivity.class);
-            startActivity(intent);
+            case R.id.action_edit_friends:
+
+                Intent intent = new Intent(this, EditFriendsActivity.class);
+                startActivity(intent);
+
+            case R.id.action_camera:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setItems(R.array.camera_choices, mDialogListener);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+            }
 
 
+            return super.onOptionsItemSelected(item);
         }
 
-
-        return super.onOptionsItemSelected(item);
-    }
 
     private void navigateToLogin() {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
