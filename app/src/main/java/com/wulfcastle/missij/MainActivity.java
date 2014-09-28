@@ -63,6 +63,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     break;
 
                 case 1: // Take Video Option
+
+                    Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                    fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
+                    saveVideo(takeVideoIntent);
                     break;
 
                 case 2: // Choose Picture Option
@@ -133,6 +137,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         } else {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // Set the image file name
             startActivityForResult(intent, TAKE_PHOTO_REQUEST); // startActivityForResult means that the activity should start an external app, use it ,and return a result
+        }
+    }
+
+    protected void saveVideo(Intent intent) {
+        if (fileUri == null) {
+            // Display Error
+            Toast.makeText(MainActivity.this, R.string.storage_error, Toast.LENGTH_LONG);
+        } else {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // Set the video file name
+            intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10); // Set the max video length
+            intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0); // Set the video quality to low
+            startActivityForResult(intent, TAKE_VIDEO_REQUEST); // startActivityForResult means that the activity should start an external app, use it ,and return a result
         }
     }
 
