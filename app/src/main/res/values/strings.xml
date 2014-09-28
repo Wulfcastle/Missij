@@ -28,6 +28,11 @@
     <string name="storage_error">There was a problem accessing your device\'s external storage</string>
     <string name="directory_creation_error">Failed to create directory</string>
     <string name="general_error">Sorry there was an error</string>
+    <string name="file_size_error">The selected video must be less than 10MB</string>
+    <string name="file_exception_error">There was a problem with the selected file</string>
+
+
+
 
 
 
