@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -20,6 +21,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -73,7 +75,14 @@ public class RecipientsActivity extends ListActivity {
 
            case R.id.action_send:
                ParseObject message = createMessage();
-               //sendMessage(message);
+               if(message == null) {
+               // There was an error
+                   alert(getString(R.string.error_selecting_file)).show();
+                } else {
+                   // Send Message
+                   sendMessage(message);
+                   finish(); // Finishes current activity and returns user to previous activity (MainActivity)
+               }
                return true;
        }
 
@@ -107,7 +116,17 @@ public class RecipientsActivity extends ListActivity {
 
 
 
-    private void sendMessage(ParseObject message) {
+    protected void sendMessage(ParseObject message) { // Saving Message to Parse.com back-end
+        message.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Toast.makeText(RecipientsActivity.this, R.string.success_message, Toast.LENGTH_LONG).show(); // Message was sent successfully
+                } else {
+                    alert(getString(R.string.error_sending_message)).show(); // Error sending message
+                }
+            }
+        });
 
     }
 

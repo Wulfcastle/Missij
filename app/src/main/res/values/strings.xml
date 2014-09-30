@@ -32,6 +32,11 @@
     <string name="file_size_error">The selected video must be less than 10MB</string>
     <string name="file_exception_error">There was a problem with the selected file</string>
     <string name="empty_friends_recipients_label">Choose some friends first!</string>
+    <string name="error_selecting_file">There was an error with the selected file. Please select a different file.</string>
+    <string name="error_sending_message">There was an error sending your message. Please try again.</string>
+    <string name="success_message">"Message Sent!"</string>
+
+
 
     <string-array name="camera_choices">
         <item>Take Picture</item>
