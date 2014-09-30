@@ -30,12 +30,7 @@
     <string name="general_error">Sorry there was an error</string>
     <string name="file_size_error">The selected video must be less than 10MB</string>
     <string name="file_exception_error">There was a problem with the selected file</string>
-
-
-
-
-
-
+    <string name="empty_friends_recipients_label">Choose some friends first!</string>
 
     <string-array name="camera_choices">
         <item>Take Picture</item>
@@ -43,5 +38,7 @@
         <item>Choose Picture</item>
         <item>Choose Video</item>
     </string-array>
+
+    <string name="title_activity_recipients">Choose Recipients</string>
 
 </resources>

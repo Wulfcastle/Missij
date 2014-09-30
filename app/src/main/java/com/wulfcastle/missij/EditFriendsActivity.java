@@ -68,7 +68,7 @@ public class EditFriendsActivity extends ListActivity {
                     String[] usernames = new String[mUsers.size()];
                     int i=0;
                     for(ParseUser user : mUsers) { // Each in loop - Constructor Loop ----> "ParseUser user" is a single user from Parse.com back-end.
-                    // ParseUser user is being extracted from the List<> of ParseUsers (see line 47 ^^^^) and parsed into the array
+                    // ParseUser user is being extracted from the List<> of ParseUsers (see line 63 ^^^^) and parsed into the array
                     // For each ParseUser in list ParseUser do the following :
 
                         usernames[i] = user.getUsername();
@@ -101,7 +101,7 @@ public class EditFriendsActivity extends ListActivity {
             mFriendsRelation.add(mUsers.get(position));
 
                 /* Adding Friend by getting position of the displayed user ---->
-                 Remember that we have to use mUsers (as mUsers is the whole ist of users), not mCurrentUser for this) from the ListView. */
+                 Remember that we have to use mFriends (as mFriends is the whole ist of users), not mCurrentUser for this) from the ListView. */
                 // #Take note that this only adds the relation locally, we also need to save the relation to the Parse.com backend, down below.
          } else {
 
@@ -127,8 +127,8 @@ public class EditFriendsActivity extends ListActivity {
 
                 if (e == null) {
                     // Query succeeded ---> List of Users Returned -----> Look for a match
-                    for (int i=0; i < mUsers.size(); i++) { // mUsers is the list of all users
-                       ParseUser user = mUsers.get(i); // Looping through all users and storing current user in ParseUser variable -----> mUsers is a lift of all users in the database
+                    for (int i=0; i < mUsers.size(); i++) { // mFriends is the list of all users
+                       ParseUser user = mUsers.get(i); // Looping through all users and storing current user in ParseUser variable -----> mFriends is a lift of all users in the database
                         for (ParseUser friend : friends) { // friends is a list of all the app user's friends
                             // For *each* ParseUser (known as friend in this loop) in List<ParseUser> (List of ParseUsers)  of  "friends" do the following :
 
@@ -136,7 +136,7 @@ public class EditFriendsActivity extends ListActivity {
 
                             /*
 
-                             Here the the current user's Object ID (from "ParseUser user" variable above (which is acquired from mUsers, which is a list of all users)
+                             Here the the current user's Object ID (from "ParseUser user" variable above (which is acquired from mFriends, which is a list of all users)
                              is being compared Object ID's from the list of friends (ParseUser friend is a single user from the list of all friends. The list of all friends are defined above in line 138)
 
                              If the Object ID of the ParseUser "user" variable matches the ParseUser "friend" variable it means that the current user in the loop is a friend of the app user.

@@ -276,6 +276,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 mediaScanIntent.setData(fileUri);
                 sendBroadcast(mediaScanIntent);
             }
+
+            Intent recipientsIntent = new Intent(this, RecipientsActivity.class);
+            recipientsIntent.setData(fileUri); // Sending data (File URI) to new activity
+            startActivity(recipientsIntent);
+
         } else if (resultCode != RESULT_CANCELED) {
             Toast.makeText(this, R.string.general_error, Toast.LENGTH_LONG).show();
         }
@@ -302,17 +307,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 ParseUser.logOut(); // Logout current user
                 ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
                 navigateToLogin();
+                break;
 
             case R.id.action_edit_friends:
 
                 Intent intent = new Intent(this, EditFriendsActivity.class);
                 startActivity(intent);
+                break;
 
             case R.id.action_camera:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setItems(R.array.camera_choices, mDialogListener);
                 AlertDialog dialog = builder.create();
                 dialog.show();
+                break;
 
             }
 
