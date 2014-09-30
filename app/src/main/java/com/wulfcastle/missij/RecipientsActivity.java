@@ -14,10 +14,13 @@ import android.widget.ListView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -61,10 +64,29 @@ public class RecipientsActivity extends ListActivity {
                return true;
 
            case R.id.action_send:
+               ParseObject message = createMessage();
+               //sendMessage(message);
                return true;
        }
 
         return super.onOptionsItemSelected(item);
+
+    }
+
+
+    protected ParseObject createMessage() { // Message constructor for storing messages in Parse.com
+        ParseObject message = new ParseObject(ParseConstants.CLASS_MESSAGES); // Creating a new message in "Messages" class/database in Parse.com
+        message.put(ParseConstants.KEY_SENDER_ID, ParseUser.getCurrentUser().getObjectId()); // Assigning a Sender ID to the Message
+        message.put(ParseConstants.KEY_SENDER_NAME, ParseUser.getCurrentUser().getUsername()); // Assigning the Username of the sender to the Messgage
+        message.put(ParseConstants.KEY_RECEPIENTS_IDS, getRecipientIDs()); // Adding the Recipient ID's to the Message
+
+        return message;
+    }
+
+
+
+    private void sendMessage(ParseObject message) {
+
     }
 
     @Override
@@ -111,6 +133,19 @@ public class RecipientsActivity extends ListActivity {
             }
         });
 
+    }
+
+    protected ArrayList<String> getRecipientIDs() {
+        ArrayList<String> recipientIDs = new ArrayList<String>();
+
+        for (int i=0; i < getListView().getCount(); i++) {  // Looping through whole list
+            if (getListView().isItemChecked(i)) { // Checking to see if item [i] has been checked
+                // Add friend to recipient list
+                recipientIDs.add(mFriends.get(i).getObjectId()); // Adding ObjectID of current friend in the loop to recipientIDs
+            }
+        }
+
+        return recipientIDs;
     }
 
 
