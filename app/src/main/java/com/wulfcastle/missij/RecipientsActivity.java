@@ -15,11 +15,13 @@ import android.widget.ListView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,8 +36,8 @@ public class RecipientsActivity extends ListActivity {
 
     protected MenuItem mSend; // We use this to set the "Send" menu item as visible by referencing
 
-    protected Uri mediaURI = getIntent().getData(); // Getting the path/URI that was passed into this activity by recipientsIntent (Intent that started this) in MainActivity
-    protected String fileType = getIntent().getExtras().getString(ParseConstants.KEY_FILE_TYPE); // Getting the File Type that was passed into this activity by recipientsIntent (Intent that started this) in MainActivity
+    protected Uri mediaURI; // Getting the path/URI that was passed into this activity by recipientsIntent (Intent that started this) in MainActivity
+    protected String fileType; // Getting the File Type that was passed into this activity by recipientsIntent (Intent that started this) in MainActivity
 
 
     @Override
@@ -44,6 +46,8 @@ public class RecipientsActivity extends ListActivity {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_recipients);
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE); // Gets default list view associated with this activity and set's the Choice Mode for the List View allow multiple choices
+        mediaURI = getIntent().getData();
+        fileType = getIntent().getExtras().getString(ParseConstants.KEY_FILE_TYPE);
     }
 
 
@@ -85,7 +89,20 @@ public class RecipientsActivity extends ListActivity {
         message.put(ParseConstants.KEY_RECEPIENTS_IDS, getRecipientIDs()); // Adding the Recipient ID's to the Message
         message.put(ParseConstants.KEY_FILE_TYPE, fileType); // Adding the File Type to the Message (For back-end purposes)
 
-        return message;
+        byte fileBytes[] = FileHelper.getByteArrayFromFile(this, mediaURI); // Converting file to Byter array for upload to Parse.com
+
+        if (fileBytes == null) {
+            return null;
+        } else {
+            if (fileType.equals(ParseConstants.TYPE_IMAGE)) {
+                fileBytes = FileHelper.reduceImageForUpload(fileBytes); // Reduce size of image
+            }
+
+            String fileName = FileHelper.getFileName(this, mediaURI, fileType); // Getting file name
+            ParseFile file = new ParseFile(fileName, fileBytes); // Creating new ParseFile for upload
+            message.put(ParseConstants.KEY_FILE, file); // Adding the File to the message
+            return message;
+        }
     }
 
 
