@@ -3,9 +3,11 @@ package com.wulfcastle.missij;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -26,6 +28,8 @@ public class RecipientsActivity extends ListActivity {
     protected ParseRelation<ParseUser> mFriendsRelation; // Variable to declare friendship between two users
     protected ParseUser mCurrentUser; // Variable to get current user
 
+    protected MenuItem mSend; // We use this to set the "Send" menu item as visible by referencing it
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,7 @@ public class RecipientsActivity extends ListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.recipients, menu);
+        mSend = menu.getItem(0); // Setting mSend variable to the correct menu item
         return true;
     }
 
@@ -49,9 +54,16 @@ public class RecipientsActivity extends ListActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
+       switch (id) {
+           case android.R.id.home:
+               NavUtils.navigateUpFromSameTask(this);
+               return true;
+
+           case R.id.action_send:
+               return true;
+       }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -89,7 +101,7 @@ public class RecipientsActivity extends ListActivity {
                         usernames[i] = friend.getUsername(); // Add username of "friend" to String Array "usernames" at index [i]
                         i++; // Increase index by 1
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getListView().getContext(), android.R.layout.simple_list_item_1, usernames);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getListView().getContext(), android.R.layout.simple_list_item_multiple_choice, usernames);
                     setListAdapter(adapter);
 
                 } else {
@@ -112,4 +124,16 @@ public class RecipientsActivity extends ListActivity {
         return dialog;
     }
 
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        if (l.getCheckedItemCount() > 0) { // Get's the number of items checked in the list (l), see above ^^
+            mSend.setVisible(true);
+
+
+        } else {
+            mSend.setVisible(false); // Making the "Send" button visible when a user clicks on at least one recipient
+        }
+    }
 }

@@ -75,7 +75,7 @@ public class EditFriendsActivity extends ListActivity {
                         i++;                    }
 
                     // Creating adapter to convert and display String[] usernames in a list
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditFriendsActivity.this, android.R.layout.simple_list_item_checked, usernames);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditFriendsActivity.this, android.R.layout.simple_list_item_multiple_choice, usernames);
                     setListAdapter(adapter);
 
                     addFriendCheckmarks();
