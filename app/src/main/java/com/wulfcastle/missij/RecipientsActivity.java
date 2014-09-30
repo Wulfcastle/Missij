@@ -2,6 +2,7 @@ package com.wulfcastle.missij;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
@@ -31,7 +32,10 @@ public class RecipientsActivity extends ListActivity {
     protected ParseRelation<ParseUser> mFriendsRelation; // Variable to declare friendship between two users
     protected ParseUser mCurrentUser; // Variable to get current user
 
-    protected MenuItem mSend; // We use this to set the "Send" menu item as visible by referencing it
+    protected MenuItem mSend; // We use this to set the "Send" menu item as visible by referencing
+
+    protected Uri mediaURI = getIntent().getData(); // Getting the path/URI that was passed into this activity by recipientsIntent (Intent that started this) in MainActivity
+    protected String fileType = getIntent().getExtras().getString(ParseConstants.KEY_FILE_TYPE); // Getting the File Type that was passed into this activity by recipientsIntent (Intent that started this) in MainActivity
 
 
     @Override
@@ -79,6 +83,7 @@ public class RecipientsActivity extends ListActivity {
         message.put(ParseConstants.KEY_SENDER_ID, ParseUser.getCurrentUser().getObjectId()); // Assigning a Sender ID to the Message
         message.put(ParseConstants.KEY_SENDER_NAME, ParseUser.getCurrentUser().getUsername()); // Assigning the Username of the sender to the Messgage
         message.put(ParseConstants.KEY_RECEPIENTS_IDS, getRecipientIDs()); // Adding the Recipient ID's to the Message
+        message.put(ParseConstants.KEY_FILE_TYPE, fileType); // Adding the File Type to the Message (For back-end purposes)
 
         return message;
     }
